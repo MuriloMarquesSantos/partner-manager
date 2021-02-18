@@ -1,11 +1,10 @@
-const express = require('express');
+const express = require('express')
+const routes = require('./routes/partner.routes')
 
-const app = express();
+const app = express()
 
 app.listen(3333, () => {
-    console.log('Server is up and running!');
+    console.log('Server is up and running!')
 })
 
-app.get('/', (request, response) => {
-    return response.status(200).json({success: 'true'});
-})
+app.use(routes)
