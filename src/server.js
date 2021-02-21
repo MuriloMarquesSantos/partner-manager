@@ -1,6 +1,8 @@
 const express = require('express')
 const routes = require('./routes/partner.routes')
-const path = require('path');
+const connectDB = require('../config/databaseConfig')
+
+connectDB()
 
 const app = express()
 
