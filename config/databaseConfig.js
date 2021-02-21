@@ -1,7 +1,6 @@
 const mongoose = require('mongoose')
 
 const connectDB = async () => {
-    console.log(process.env.MONGO_URI)
     try {
         const connection = await mongoose.connect(process.env.MONGO_URI, {
             auth: {
@@ -13,7 +12,7 @@ const connectDB = async () => {
             useUnifiedTopology: true,
         })
 
-        console.log(`Mongo Database connected: ${connection.connection.host}`)
+        console.log(`Mongo Database connected in: ${connection.connection.host}`)
     } catch (error) {
         console.error(error)
     }
