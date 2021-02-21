@@ -3,6 +3,7 @@ const routes = require('./routes/partner.routes')
 const connectDB = require('../config/databaseConfig')
 
 const PARTNERS_URI_PREFIX = process.env.PARTNERS_URI_PREFIX
+const PORT = process.env.PORT
 
 connectDB()
 
@@ -12,8 +13,7 @@ app.use(express.json())
 
 app.use(`${PARTNERS_URI_PREFIX}`, routes)
 
-app.listen(3333, () => {
-    console.log('Server is up and running!')
+app.listen(PORT, () => {
+    console.log(`Server is up and running! in port ${PORT}`)
 })
 
-app.use(routes)

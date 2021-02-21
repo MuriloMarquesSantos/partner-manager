@@ -13,3 +13,20 @@ exports.addPartner = async (request, response, next) => {
         return response.status(500).json(error.message)
     }
 }
+
+exports.getPartnerById = async (request, response) => {
+    try {
+        const { id } = request.params
+        const foundPartner = await partner.findOne({ id })
+
+        console.log(foundPartner)
+
+        if (!foundPartner) {
+            return response.status(404).json({ message: "Partner not found" })
+        }
+
+        return response.status(200).json(foundPartner)
+    } catch (error) {
+        console.error(error)
+    }
+}
