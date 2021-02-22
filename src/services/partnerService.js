@@ -1,56 +1,72 @@
-const partner = require('../models/partner')
+const PartnerModel = require('../models/partner')
+const AppError = require('../errors/appError')
+const PartnerNotFoundError = require('../errors/partnerNotFoundError')
+const PartnerAlreadyExistsError = require('../errors/partnerAlreadyExistsError')
 
-exports.addPartner = async (request, response, next) => {
+exports.addPartner = async (partner) => {
     try {
-        const createdPartner = await partner.create(request.body)
+        if (checkPartnerExists()) {
+            throw new PartnerAlreadyExistsError()
+        }
+        
+        const createdPartner = await PartnerModel.create(partner)
 
-        return response.status(201).json({
-            success: true,
-            data: createdPartner
-        })
+        return createdPartner
     } catch (error) {
         console.error(error)
-        return response.status(500).json(error.message)
+        throw new AppError(error.message, error.statusCode)
     }
 }
 
-exports.getPartnerById = async (request, response) => {
-    try {
-        const { id } = request.params
-        const foundPartner = await partner.findOne({ id })
+async function checkPartnerExists() {
+    const response = await PartnerModel.find(
+        {
+            $or: [{ id: partner.id }, { document: partner.document }]
+        }
+    )
 
-        console.log(foundPartner)
+    return response.length !== 0
+}
+
+exports.getPartnerById = async (partnerId) => {
+    try {
+        const foundPartner = await PartnerModel.findOne({ id: partnerId })
 
         if (!foundPartner) {
-            return response.status(404).json({ message: "Partner not found" })
+            throw new PartnerNotFoundError("Partner not found")
         }
 
-        return response.status(200).json(foundPartner)
+        return foundPartner
     } catch (error) {
         console.error(error)
+        throw new AppError(error.message, error.statusCode)
     }
 }
 
-exports.findNearestPartner = async (request, response) => {
+exports.findPartners = async (latitude, longitude) => {
     try {
-        const { latitude, longitude } = request.query
-        const foundPartner = await partner.find({
-            coverageArea: {
-                $geoIntersects: {
-                    $geometry:
-                        { type: "Point", coordinates: [latitude, longitude] }
-                }
+        const foundPartners = await findPartnersWithinCoverageArea(latitude, longitude)
+
+        if (!foundPartners || foundPartners.length === 0) {
+            throw new PartnerNotFoundError("No partners nearby")
+        }
+
+        return foundPartners
+    } catch (error) {
+        console.error(error)
+        throw new AppError(error.message, error.statusCode)
+    }
+}
+
+async function findPartnersWithinCoverageArea(latitude, longitude) {
+    const foundPartners = await PartnerModel.find({
+        coverageArea: {
+            $geoIntersects: {
+                $geometry:
+                    { type: "Point", coordinates: [latitude, longitude] }
             }
-        }).sort({ address: -1 })
-
-        console.log(foundPartner)
-
-        if (!foundPartner) {
-            return response.status(404).json({ message: "Partner not found" })
         }
+    }).sort({ address: -1 })
 
-        return response.status(200).json(foundPartner)
-    } catch (error) {
-        console.error(error)
-    }
+    return foundPartners
 }
