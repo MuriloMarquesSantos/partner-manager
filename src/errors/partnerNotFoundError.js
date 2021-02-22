@@ -1,6 +1,6 @@
-class PartnerNotFoundError {
+class PartnerNotFoundError extends Error {
     constructor(message) {
-        this.message = message
+        super(message)
         this.statusCode = 404
     }
 }

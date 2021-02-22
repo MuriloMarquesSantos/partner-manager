@@ -1,6 +1,6 @@
-class PartnerAlreadyExistsError {
+class PartnerAlreadyExistsError extends Error {
     constructor() {
-        this.message = "Partner with this Id or Document, already exists"
+        super("Partner with this Id or Document, already exists")
         this.statusCode = 409
     }
 }

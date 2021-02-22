@@ -5,7 +5,8 @@ const PartnerAlreadyExistsError = require('../errors/partnerAlreadyExistsError')
 
 exports.addPartner = async (partner) => {
     try {
-        if (checkPartnerExists()) {
+        const partnerExists  = await checkPartnerExists(partner)
+        if (partnerExists) {
             throw new PartnerAlreadyExistsError()
         }
         
@@ -18,7 +19,7 @@ exports.addPartner = async (partner) => {
     }
 }
 
-async function checkPartnerExists() {
+async function checkPartnerExists(partner) {
     const response = await PartnerModel.find(
         {
             $or: [{ id: partner.id }, { document: partner.document }]
