@@ -1,10 +1,16 @@
 const express = require('express')
-const { addPartner, getPartnerById } = require('../services/partnerService')
+const {
+    addPartner,
+    getPartnerById,
+    findNearestPartner
+} = require('../services/partnerService')
 
 const router = express.Router()
 
 router.route('/').post(addPartner)
 
 router.route('/:id').get(getPartnerById)
+
+router.route('/').get(findNearestPartner)
 
 module.exports = router

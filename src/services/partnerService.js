@@ -30,3 +30,27 @@ exports.getPartnerById = async (request, response) => {
         console.error(error)
     }
 }
+
+exports.findNearestPartner = async (request, response) => {
+    try {
+        const { latitude, longitude } = request.query
+        const foundPartner = await partner.find({
+            coverageArea: {
+                $geoIntersects: {
+                    $geometry:
+                        { type: "Point", coordinates: [latitude, longitude] }
+                }
+            }
+        }).sort({ address: -1 })
+
+        console.log(foundPartner)
+
+        if (!foundPartner) {
+            return response.status(404).json({ message: "Partner not found" })
+        }
+
+        return response.status(200).json(foundPartner)
+    } catch (error) {
+        console.error(error)
+    }
+}

@@ -37,4 +37,6 @@ const partnerSchema = new mongoose.Schema({
     }
 })
 
+partnerSchema.index({coverageArea: '2dsphere'})
+
 module.exports = mongoose.model('partner', partnerSchema)
