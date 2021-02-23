@@ -6,10 +6,11 @@ const {
     checkPartnerExists,
     findById,
     findPartnersWithinCoverageArea
-} = require('../../persistence/repositories/partnerRepository')
+} = require('../../infrastructure/repositories/partnerRepository')
 
-exports.addPartner = async (partner) => {
+exports.addPartner = async (partnerDTO) => {
     try {
+        const partner = new Partner(partnerDTO)
         const partnerExists = await checkPartnerExists(partner)
         if (partnerExists) {
             throw new PartnerAlreadyExistsError()
@@ -17,7 +18,7 @@ exports.addPartner = async (partner) => {
 
         const createdPartner = await save(partner)
 
-        return createdPartner
+        return new PartnerDTO(createdPartner)
     } catch (error) {
         console.error(error)
         throw new AppError(error.message, error.statusCode)
@@ -32,22 +33,24 @@ exports.getPartnerById = async (partnerId) => {
             throw new PartnerNotFoundError("Partner not found")
         }
 
-        return foundPartner
+        return new PartnerDTO(foundPartner)
     } catch (error) {
         console.error(error)
         throw new AppError(error.message, error.statusCode)
     }
 }
 
-exports.findPartners = async (latitude, longitude) => {
+exports.findNearestPartner = async (findNearestPartnerRequest) => {
     try {
-        const foundPartners = await findPartnersWithinCoverageArea(latitude, longitude)
+        const { latitude, longitude } = findNearestPartnerRequest
+        const foundPartner = await findPartnersWithinCoverageArea(latitude, longitude)
 
-        if (!foundPartners || foundPartners.length === 0) {
+        if (!foundPartner) {
             throw new PartnerNotFoundError("No partners nearby")
         }
 
-        return foundPartners
+        return new PartnerDTO(foundPartner)
+
     } catch (error) {
         console.error(error)
         throw new AppError(error.message, error.statusCode)

@@ -33,8 +33,10 @@ exports.checkPartnerExists = async (partner) => {
 exports.findById = async (id) => {
     try {
         const foundPartner = await PartnerModel.findOne({ id })
-
-        return new Partner(foundPartner)
+        if (foundPartner) {
+            return new Partner(foundPartner)
+        }
+        return null
     }
     catch (error) {
         console.error(error)
@@ -53,7 +55,11 @@ exports.findPartnersWithinCoverageArea = async (latitude, longitude) => {
             }
         }).sort({ address: -1 })
 
-        return foundPartners.map(foundPartner => new Partner(foundPartner))
+        if (foundPartners && foundPartners.length > 0) {
+            return foundPartners[0]
+        }
+
+        return null
     }
     catch (error) {
         console.error(error)

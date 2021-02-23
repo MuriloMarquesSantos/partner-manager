@@ -1,4 +1,4 @@
-class Partner {
+class PartnerResponse {
     constructor({id, tradingName, ownerName, document, coverageArea, address}) {
         this.id = id
         this.tradingName = tradingName
@@ -9,4 +9,4 @@ class Partner {
     }
 }
 
-module.exports = Partner
+module.exports = PartnerResponse

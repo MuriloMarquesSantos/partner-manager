@@ -1,27 +1,31 @@
 const {
     addPartner,
     getPartnerById,
-    findPartners
+    findNearestPartner
 } = require('../../core/services/partnerService')
 
 const {
-    validateAddPartnerRequest,
+    getValidatedAddPartnerRequest,
     validateFindPartners,
 } = require('../validators/partnerValidator')
 
-const Partner = require('../../core/entities/partner')
+const PartnerDTO = require('../../core/dto/partnerDTO')
+const PartnerResponse = require('../models/partnerResponse')
+const FindNearestPartnerRequest = require('../models/findNearestPartnerRequest')
 
 exports.addPartner = async (request, response) => {
     try {
-        validateAddPartnerRequest(request.body)
+        const createPartnerRequest = getValidatedAddPartnerRequest(request.body)
 
-        const partner = new Partner(request.body)
+        const partnerDto = new PartnerDTO(createPartnerRequest)
 
-        const createdPartner = await addPartner(partner)
+        const createdPartner = await addPartner(partnerDto)
+
+        const partnerResponse = new PartnerResponse(createdPartner)
 
         return response.status(201).json({
             success: true,
-            data: createdPartner
+            data: partnerResponse
         })
     } catch (error) {
         console.error(error)
@@ -34,20 +38,24 @@ exports.getPartnerById = async (request, response) => {
         const { id } = request.params
         const foundPartner = await getPartnerById(id)
 
-        return response.status(200).json(foundPartner)
+        const partnerResponse = new PartnerResponse(foundPartner)
+
+        return response.status(200).json(partnerResponse)
     } catch (error) {
         console.error(error)
         return response.status(error.statusCode).json({ message: error.message })
     }
 }
 
-exports.findPartners = async (request, response) => {
+exports.findNearestPartner = async (request, response) => {
     try {
         validateFindPartners(request.query)
-        const { latitude, longitude } = request.query
-        const foundPartner = await findPartners(latitude, longitude)
+        const findNearestPartnerRequest = new FindNearestPartnerRequest(request.query)
+        const foundPartner = await findNearestPartner(findNearestPartnerRequest)
 
-        return response.status(200).json(foundPartner)
+        const partnerResponse = new PartnerResponse(foundPartner)
+
+        return response.status(200).json(partnerResponse)
     } catch (error) {
         console.error(error)
         return response.status(error.statusCode).json({ message: error.message })

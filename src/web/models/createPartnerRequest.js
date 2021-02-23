@@ -19,7 +19,7 @@ const addressSchema = Joi.object({
         .items(Joi.number())
 })
 
-const partnerSchema = Joi.object({
+const createPartnerRequest = Joi.object({
     id: Joi.string()
         .required(),
 
@@ -33,4 +33,4 @@ const partnerSchema = Joi.object({
     address: addressSchema
 })
 
-module.exports = partnerSchema
+module.exports = createPartnerRequest
