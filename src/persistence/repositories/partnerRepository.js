@@ -1,11 +1,12 @@
 const PartnerModel = require('../models/partner')
 const PersistenceError = require('../errors/persistenceError')
+const Partner = require('../../core/entities/partner')
 
 exports.save = async (partner) => {
     try {
         const createdPartner = await PartnerModel.create(partner)
 
-        return createdPartner
+        return new Partner(createdPartner)
     } catch (error) {
         console.error(error.message)
         throw new PersistenceError()
@@ -33,7 +34,7 @@ exports.findById = async (id) => {
     try {
         const foundPartner = await PartnerModel.findOne({ id })
 
-        return foundPartner
+        return new Partner(foundPartner)
     }
     catch (error) {
         console.error(error)
@@ -52,7 +53,7 @@ exports.findPartnersWithinCoverageArea = async (latitude, longitude) => {
             }
         }).sort({ address: -1 })
 
-        return foundPartners
+        return foundPartners.map(foundPartner => new Partner(foundPartner))
     }
     catch (error) {
         console.error(error)

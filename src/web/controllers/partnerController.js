@@ -2,18 +2,22 @@ const {
     addPartner,
     getPartnerById,
     findPartners
-} = require('../../services/partnerService')
+} = require('../../core/services/partnerService')
 
 const {
     validateAddPartnerRequest,
     validateFindPartners,
 } = require('../validators/partnerValidator')
 
+const Partner = require('../../core/entities/partner')
+
 exports.addPartner = async (request, response) => {
     try {
         validateAddPartnerRequest(request.body)
 
-        const createdPartner = await addPartner(request.body)
+        const partner = new Partner(request.body)
+
+        const createdPartner = await addPartner(partner)
 
         return response.status(201).json({
             success: true,

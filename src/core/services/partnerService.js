@@ -6,7 +6,7 @@ const {
     checkPartnerExists,
     findById,
     findPartnersWithinCoverageArea
-} = require('../database/repositories/partnerRepository')
+} = require('../../persistence/repositories/partnerRepository')
 
 exports.addPartner = async (partner) => {
     try {
