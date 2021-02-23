@@ -1,4 +1,4 @@
-const partnerSchema = require('../validators/partnerSchema')
+const partnerSchema = require('./partnerSchema')
 const ValidationError = require('./errors/validationError')
 
 exports.validateAddPartnerRequest = (partnerRequestBody) => {

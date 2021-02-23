@@ -2,7 +2,7 @@ const {
     addPartner,
     getPartnerById,
     findPartners
-} = require('../services/partnerService')
+} = require('../../services/partnerService')
 
 const {
     validateAddPartnerRequest,

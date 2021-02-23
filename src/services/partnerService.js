@@ -1,16 +1,21 @@
-const PartnerModel = require('../models/partner')
 const AppError = require('../errors/appError')
 const PartnerNotFoundError = require('../errors/partnerNotFoundError')
 const PartnerAlreadyExistsError = require('../errors/partnerAlreadyExistsError')
+const { 
+    save,
+    checkPartnerExists,
+    findById,
+    findPartnersWithinCoverageArea
+} = require('../database/repositories/partnerRepository')
 
 exports.addPartner = async (partner) => {
     try {
-        const partnerExists  = await checkPartnerExists(partner)
+        const partnerExists = await checkPartnerExists(partner)
         if (partnerExists) {
             throw new PartnerAlreadyExistsError()
         }
-        
-        const createdPartner = await PartnerModel.create(partner)
+
+        const createdPartner = await save(partner)
 
         return createdPartner
     } catch (error) {
@@ -19,19 +24,9 @@ exports.addPartner = async (partner) => {
     }
 }
 
-async function checkPartnerExists(partner) {
-    const response = await PartnerModel.find(
-        {
-            $or: [{ id: partner.id }, { document: partner.document }]
-        }
-    )
-
-    return response.length !== 0
-}
-
 exports.getPartnerById = async (partnerId) => {
     try {
-        const foundPartner = await PartnerModel.findOne({ id: partnerId })
+        const foundPartner = await findById(partnerId)
 
         if (!foundPartner) {
             throw new PartnerNotFoundError("Partner not found")
@@ -57,17 +52,4 @@ exports.findPartners = async (latitude, longitude) => {
         console.error(error)
         throw new AppError(error.message, error.statusCode)
     }
-}
-
-async function findPartnersWithinCoverageArea(latitude, longitude) {
-    const foundPartners = await PartnerModel.find({
-        coverageArea: {
-            $geoIntersects: {
-                $geometry:
-                    { type: "Point", coordinates: [latitude, longitude] }
-            }
-        }
-    }).sort({ address: -1 })
-
-    return foundPartners
 }

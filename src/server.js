@@ -1,5 +1,5 @@
 const express = require('express')
-const routes = require('./routes/partner.routes')
+const routes = require('./web/routes/partner.routes')
 const connectDB = require('../config/databaseConfig')
 
 const PARTNERS_URI_PREFIX = process.env.PARTNERS_URI_PREFIX
