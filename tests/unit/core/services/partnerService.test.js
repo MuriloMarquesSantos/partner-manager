@@ -2,7 +2,6 @@ const PartnerService = require('../../../../src/core/services/partnerService')
 const PartnerRepository = require('../../../../src/infrastructure/repositories/partnerRepository')
 const PartnerDTO = require('../../../../src/core/dto/partnerDTO')
 const AppError = require('../../../../src/core/errors/appError')
-const sandbox = require('sinon').createSandbox()
 
 const sinon = require('sinon')
 

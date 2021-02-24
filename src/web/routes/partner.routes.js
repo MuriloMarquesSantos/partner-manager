@@ -1,16 +1,13 @@
 const express = require('express')
-const {
-    addPartner,
-    getPartnerById,
-    findNearestPartner
-} = require('../controllers/partnerController')
+const PartnerController = require('../controllers/partnerController')
 
+const partnerController = new PartnerController()
 const router = express.Router()
 
-router.route('/').post(addPartner)
+router.route('/').post(partnerController.addPartner)
 
-router.route('/:id').get(getPartnerById)
+router.route('/:id').get(partnerController.getPartnerById)
 
-router.route('/').get(findNearestPartner)
+router.route('/').get(partnerController.findNearestPartner)
 
 module.exports = router
