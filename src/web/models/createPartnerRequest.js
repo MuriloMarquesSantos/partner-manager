@@ -7,7 +7,8 @@ const coverageSchema = Joi.object({
     coordinates: Joi.array()
         .items(Joi.array()
             .items(Joi.array()
-                .items(Joi.array().items(Joi.number()))))
+                .items(Joi.array().items(Joi.number())))
+            .required())
 
 })
 
@@ -16,7 +17,8 @@ const addressSchema = Joi.object({
         .valid('Point')
         .required(),
     coordinates: Joi.array()
-        .items(Joi.number())
+        .items(Joi.number()
+            .required())
 })
 
 const createPartnerRequest = Joi.object({
@@ -29,8 +31,8 @@ const createPartnerRequest = Joi.object({
         .required(),
     document: Joi.string()
         .required(),
-    coverageArea: coverageSchema,
-    address: addressSchema
+    coverageArea: coverageSchema.required(),
+    address: addressSchema.required()
 })
 
 module.exports = createPartnerRequest

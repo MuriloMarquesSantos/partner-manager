@@ -3,3 +3,4 @@ tmp/*
 !tmp/.gitkeep
 .vscode
 coverage
+.DS_Store
