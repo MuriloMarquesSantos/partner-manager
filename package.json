@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon -r dotenv/config index.js",
-    "test": "jest"
+    "test": "jest --coverage --coverageDirectory='coverage'"
   },
   "repository": {
     "type": "git",
