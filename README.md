@@ -1,5 +1,10 @@
 # Partner Manager
 
+<h3 align="center">
+    <img alt="Logo" title="#logo" width="150px" src="/assets/ze-delivery.png">
+    <br>
+</h3>
+
 - [Purpose](#purpose)
 - [Technologies](#techs)
 - [Requirements](#reqs)
