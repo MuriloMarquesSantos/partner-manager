@@ -76,9 +76,12 @@ Project
 ### Testing
 - Unit and integrations tests, shall be ran in a separate container. Run the following commands to access it:
 ```sh
-  $ docker-compose -f docker-compose.test.yml up --build
   ## During the first time, it will take longer than normal because container will download dependencies
+  $ docker-compose -f docker-compose.test.yml up --build
 ```
+## After the test finishes a folder called COVERAGE will be generated in project root.
+## Open coverage/lcov-report/index.html file to check coverage visually.
+
 <a id="postman"></a>
 ## Postman Documentation
 
