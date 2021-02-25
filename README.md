@@ -30,7 +30,7 @@ This system was created to enable Partner management. It provides three main fun
 - [MongoDB](https://www.mongodb.com/)
 - [Mongoose](https://mongoosejs.com/) to connect and manage DB
 - [Sinon](https://sinonjs.org/) and [Jest](https://jestjs.io/) for testing
-- [Express](https://expressjs.com/) as Microweb framework
+- [Express](https://expressjs.com/) as Micro web framework
 - [Docker](https://www.docker.com/)
 
 <a id="reqs"></a>
