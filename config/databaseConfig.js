@@ -1,8 +1,9 @@
 const mongoose = require('mongoose')
 
-const connectDB = async () => {
+exports.connectDB = async () => {
+    const mongoUri = process.env.NODE_ENV === 'dev' ? process.env.MONGO_URI: process.env.MONGO_URI_TEST
     try {
-        const connection = await mongoose.connect(process.env.MONGO_URI, {
+        const connection = await mongoose.connect(mongoUri, {
             auth: {
                 authSource: "admin"
             },
@@ -18,4 +19,6 @@ const connectDB = async () => {
     }
 }
 
-module.exports = connectDB
+exports.disconnectDB = async () => {
+    await mongoose.disconnect()
+}

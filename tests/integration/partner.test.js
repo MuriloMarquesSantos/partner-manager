@@ -1,17 +1,21 @@
-const sinon = require('sinon')
 const partnerRequest = require('./partnerRequest.json')
 const request = require('supertest')
 const app = require('../../src/server')
+const { connectDB, disconnectDB } = require('../../config/databaseConfig')
 const PartnerModel = require('../../src/infrastructure/models/partner')
 
-afterEach(() => {
-    sinon.restore()
+beforeAll(async () => {
+    await connectDB()
+})
+
+afterAll(async () => {
+    await PartnerModel.deleteOne({ id: "64" })
+    await disconnectDB()
 })
 
 describe("Partner Integration Tests", () => {
-    it("Should create a partner with success", async (done) => {
-        sinon.stub(PartnerModel, "create").returns(partnerRequest)
-        sinon.stub(PartnerModel, "find").returns([])
+    it("Should create a partner with success", async () => {
+
         const response = await request(app)
             .post('/api/v1/partners')
             .set('Accept', 'application/json')
@@ -27,12 +31,9 @@ describe("Partner Integration Tests", () => {
         expect(document).toBe("960361.506-47")
         expect(coverageArea).not.toBe(undefined)
         expect(address).not.toBe(undefined)
-
-        done()
     })
 
-    it("Should find a partner by id with success", async (done) => {
-        sinon.stub(PartnerModel, "findOne").returns(partnerRequest)
+    it("Should find a partner by id with success", async () => {
         const response = await request(app)
             .get('/api/v1/partners/64')
             .set('Accept', 'application/json')
@@ -48,18 +49,11 @@ describe("Partner Integration Tests", () => {
         expect(coverageArea).not.toBe(undefined)
         expect(address).not.toBe(undefined)
 
-        done()
     })
 
-    it("Should find nearest partner with success", async (done) => {
-        const mockFindOne = {
-            sort: function () {
-                return [partnerRequest]
-            },
-        }
-        sinon.stub(PartnerModel, "find").returns(mockFindOne)
+    it("Should find nearest partner with success", async () => {
         const response = await request(app)
-            .get('/api/v1/partners?latitude=23.12323&longitude=23.12323')
+            .get('/api/v1/partners?latitude=-44.01436&longitude=-19.92319')
             .set('Accept', 'application/json')
             .expect(200)
 
@@ -73,6 +67,6 @@ describe("Partner Integration Tests", () => {
         expect(coverageArea).not.toBe(undefined)
         expect(address).not.toBe(undefined)
 
-        done()
     })
+
 })

@@ -8,6 +8,6 @@ RUN npm install --quiet
 
 COPY . . 
 
-EXPOSE 3333
+EXPOSE 3000
 
 CMD npm run test

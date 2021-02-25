@@ -7,6 +7,7 @@
 - [Local Configuration](#localconfig)
 - [Testing](#testing)
 - [Postman Doc](#postman)
+- [Possible improvements](#improvements)
 
 <a id="purpose"></a>
 ## Purpose
@@ -60,7 +61,7 @@ Project
 - After cloning the project, installing docker and docker-compose, enter in the project root and run the following commands:
 ```sh
   ## Run docker-compose to start containers. It will start database, database-interface and the application server.
-  $ docker-compose up
+  $ docker-compose -f docker-compose.test.yml up --build
 ```
 - By default application will be started at port 3333, but you can change it in .env file.
 - Mongo-express (DB UI) will be loaded at port 8081. You will be able to manage several aspects of your mongo database with it.
@@ -68,11 +69,10 @@ Project
 
 <a id="testing"></a>
 ### Testing
-- Unit and integrations tests, can be ran in a separate container. Run the following commands to access it:
+- Unit and integrations tests, shall be ran in a separate container. Run the following commands to access it:
 ```sh
-  $ docker build -t partner-manager-test -f Dockerfile.test .
-  ## --rm is not mandatory, it will remove the container after the tests are done.
-  $ docker run --rm partner-manager-test
+  $ docker-compose -f docker-compose.test.yml up --build
+  ## During the first time, it will take longer than normal because container will download dependencies
 ```
 <a id="postman"></a>
 ## Postman Documentation
@@ -82,6 +82,15 @@ I have prepared a postman documentation, in which you will be able to check in d
 Please access it by link below:
 
 https://documenter.getpostman.com/view/4694407/TWDamayo
+
+<a id="purpose"></a>
+## Possible Improvements
+
+A system is never perfect and there is always room for improvement. Here are some points that I would like to enhance if I had more time:
+
+- Include a Dependency Injection framework so the code can be more organized;
+- Include a superset to enable the use of interfaces to enhance clean architecture concepts, such as Typescript.
+- Integration tests speed could be improved
 
 ## Support
 

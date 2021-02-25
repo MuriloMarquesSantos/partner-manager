@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon -r dotenv/config index.js",
-    "test": "jest --coverage --coverageDirectory='coverage'"
+    "dev": "NODE_ENV=dev nodemon -r dotenv/config index.js",
+    "test": "jest --runInBand --coverage --coverageDirectory='coverage'"
   },
   "repository": {
     "type": "git",
