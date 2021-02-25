@@ -88,7 +88,7 @@ Please access it by link below:
 
 https://documenter.getpostman.com/view/4694407/TWDamayo
 
-<a id="purpose"></a>
+<a id="improvements"></a>
 ## Possible Improvements
 
 A system is never perfect and there is always room for improvement. Here are some points that I would like to enhance if I had more time:
