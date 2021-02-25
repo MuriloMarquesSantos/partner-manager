@@ -79,8 +79,8 @@ Project
   ## During the first time, it will take longer than normal because container will download dependencies
   $ docker-compose -f docker-compose.test.yml up --build
 ```
-## After the test finishes a folder called COVERAGE will be generated in project root.
-## Open coverage/lcov-report/index.html file to check coverage visually.
+- After the test finishes a folder called COVERAGE will be generated in project root.
+- Open coverage/lcov-report/index.html file to check coverage visually.
 
 <a id="postman"></a>
 ## Postman Documentation
