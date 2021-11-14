@@ -17,7 +17,8 @@
 <a id="purpose"></a>
 ## Purpose
 
-This system was created to enable Partner management. It provides three main functionalities:
+This system was created to enable Partner management. A partner is a commercial estabeleshiment that can provide products to our final customers. 
+This system provides three main functionalities:
  - Create a partner
  - Search partner by ID
  - Search the nearest available partner
